@@ -1,4 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import DocumentPickerComponent from "../../components/DocumentPickerComponent";
+
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -192,6 +194,7 @@ const AddTool = () => {
                 onChange={onDateChange}
               />
             )}
+            <DocumentPickerComponent />
 
             <Pressable style={styles.submitButton} onPress={handleSubmit}>
               <Text style={styles.submitButtonText}>Add Tool</Text>
