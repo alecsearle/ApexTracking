@@ -1,7 +1,6 @@
-import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 function AllToolsList() {
   // Get URL params and router
@@ -17,8 +16,6 @@ function AllToolsList() {
     status: string;
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const [tools, setTools] = useState<Tool[]>([
     {
       id: "1",
@@ -87,8 +84,18 @@ function AllToolsList() {
               key={index}
               style={styles.toolItem}
               onPress={() => {
-                setSelectedTool(tool);
-                setModalVisible(true);
+                router.push({
+                  pathname: "/(tabs)/tools/[id]",
+                  params: {
+                    id: tool.id,
+                    name: tool.name,
+                    model: tool.model,
+                    serialNumber: tool.serialNumber,
+                    class: tool.class,
+                    purchaseDate: tool.purchaseDate,
+                    status: tool.status,
+                  },
+                });
               }}
             >
               <View style={styles.toolStatus}>
@@ -107,67 +114,6 @@ function AllToolsList() {
           ))}
         </View>
       </ScrollView>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <Pressable style={styles.modalOverlay} onPress={() => setModalVisible(false)}>
-          <View style={styles.modalView}>
-            <View style={styles.modalContent}>
-              {selectedTool && (
-                <>
-                  <View style={styles.modalHeader}>
-                    <Text style={styles.modalTitle}>{selectedTool.name}</Text>
-                    <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
-                      <Ionicons name="close" size={24} color="#666" />
-                    </Pressable>
-                  </View>
-
-                  <View style={styles.detailRow}>
-                    <View
-                      style={[
-                        styles.statusDot,
-                        {
-                          backgroundColor: selectedTool.status === "Active" ? "#4CAF50" : "#FFA000",
-                        },
-                      ]}
-                    />
-                    <Text style={styles.statusText}>{selectedTool.status}</Text>
-                  </View>
-
-                  <View style={styles.detailSection}>
-                    <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>Model:</Text>
-                      <Text style={styles.detailValue}>{selectedTool.model}</Text>
-                    </View>
-                    <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>Serial Number:</Text>
-                      <Text style={styles.detailValue}>{selectedTool.serialNumber}</Text>
-                    </View>
-                    <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>Class:</Text>
-                      <Text style={styles.detailValue}>{selectedTool.class}</Text>
-                    </View>
-                    <View style={styles.detailRow}>
-                      <Text style={styles.detailLabel}>Purchase Date:</Text>
-                      <Text style={styles.detailValue}>
-                        {new Date(selectedTool.purchaseDate).toLocaleDateString()}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <Pressable style={styles.editButton}>
-                    <Text style={styles.editButtonText}>Edit Tool</Text>
-                  </Pressable>
-                </>
-              )}
-            </View>
-          </View>
-        </Pressable>
-      </Modal>
     </View>
   );
 }
@@ -253,79 +199,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#d6b588",
     textAlign: "center",
-  },
-  // Modal Styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
-  },
-  modalView: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    maxHeight: "80%",
-  },
-  modalContent: {
-    paddingBottom: 20,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-    color: "#333",
-  },
-  closeButton: {
-    padding: 8,
-  },
-  detailSection: {
-    marginTop: 20,
-  },
-  detailRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  detailLabel: {
-    fontSize: 14,
-    color: "#666",
-    width: 120,
-  },
-  detailValue: {
-    fontSize: 16,
-    color: "#333",
-    flex: 1,
-  },
-  statusText: {
-    fontSize: 14,
-    color: "#666",
-    marginLeft: 8,
-  },
-  editButton: {
-    backgroundColor: "#d6b588",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  editButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
   },
 });
 
