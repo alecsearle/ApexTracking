@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import { Alert, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 const PurchaseNfcTags = () => {
@@ -27,13 +27,13 @@ const PurchaseNfcTags = () => {
       <Text style={styles.sectionTitle}>NFC Tags</Text>
       <Pressable style={styles.actionButton} onPress={handleBuyNFCTags}>
         <View style={styles.actionButtonContent}>
-          <Ionicons name="pricetag" size={24} color="#d6b588" />
+          <SymbolView name="tag.fill" tintColor="#d6b588" size={24} />
           <View style={styles.actionButtonText}>
             <Text style={styles.actionButtonTitle}>Purchase NFC Tags</Text>
             <Text style={styles.actionButtonSubtitle}>Buy compatible NFC tags for your tools</Text>
           </View>
         </View>
-        <Ionicons name="chevron-forward" size={24} color="#ccc" />
+        <SymbolView name="chevron.forward" tintColor="#ccc" size={24} />
       </Pressable>
     </View>
   );

@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
 const DataManagement = () => {
@@ -29,30 +29,30 @@ const DataManagement = () => {
       <View style={styles.card}>
         <Pressable style={styles.actionItem}>
           <View style={styles.actionItemContent}>
-            <Ionicons name="cloud-upload-outline" size={20} color="#666" />
+            <SymbolView name="icloud.and.arrow.up" tintColor="#666" size={20} />
             <Text style={styles.actionItemText}>Backup Data</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#ccc" />
+          <SymbolView name="chevron.forward" tintColor="#ccc" size={20} />
         </Pressable>
 
         <View style={styles.divider} />
 
         <Pressable style={styles.actionItem}>
           <View style={styles.actionItemContent}>
-            <Ionicons name="cloud-download-outline" size={20} color="#666" />
+            <SymbolView name="icloud.and.arrow.down" tintColor="#666" size={20} />
             <Text style={styles.actionItemText}>Restore Data</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#ccc" />
+          <SymbolView name="chevron.forward" tintColor="#ccc" size={20} />
         </Pressable>
 
         <View style={styles.divider} />
 
         <Pressable style={styles.actionItem} onPress={handleClearData}>
           <View style={styles.actionItemContent}>
-            <Ionicons name="trash-outline" size={20} color="#ff3b30" />
+            <SymbolView name="trash" tintColor="#ff3b30" size={20} />
             <Text style={[styles.actionItemText, styles.dangerText]}>Clear All Data</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#ccc" />
+          <SymbolView name="chevron.forward" tintColor="#ccc" size={20} />
         </Pressable>
       </View>
     </View>

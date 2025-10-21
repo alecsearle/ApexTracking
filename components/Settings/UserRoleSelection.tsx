@@ -1,5 +1,5 @@
 import { useUser } from "@/contexts/UserContext";
-import { Ionicons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const UserRoleSelection = () => {
@@ -15,10 +15,10 @@ const UserRoleSelection = () => {
           style={[styles.roleButton, userRole === "admin" && styles.roleButtonActive]}
           onPress={() => setUserRole("admin")}
         >
-          <Ionicons
-            name="shield-checkmark"
+          <SymbolView
+            name="checkmark.shield.fill"
+            tintColor={userRole === "admin" ? "#fff" : "#d6b588"}
             size={24}
-            color={userRole === "admin" ? "#fff" : "#d6b588"}
           />
           <Text style={[styles.roleText, userRole === "admin" && styles.roleTextActive]}>
             Admin
@@ -28,7 +28,11 @@ const UserRoleSelection = () => {
           style={[styles.roleButton, userRole === "employee" && styles.roleButtonActive]}
           onPress={() => setUserRole("employee")}
         >
-          <Ionicons name="person" size={24} color={userRole === "employee" ? "#fff" : "#d6b588"} />
+          <SymbolView
+            name="person.fill"
+            tintColor={userRole === "employee" ? "#fff" : "#d6b588"}
+            size={24}
+          />
           <Text style={[styles.roleText, userRole === "employee" && styles.roleTextActive]}>
             Employee
           </Text>

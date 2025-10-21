@@ -1,6 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import * as DocumentPicker from "expo-document-picker";
+import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -36,9 +35,12 @@ const DocumentPickerComponent = () => {
         // Compact upload area when no file selected
         <Pressable onPress={pickDocument} style={styles.compactUploadArea}>
           <View style={styles.compactUploadContent}>
-            <Text style={styles.compactUploadIcon}>
-              <AntDesign name="file-pdf" size={24} color="black" />
-            </Text>
+            <SymbolView
+              name="doc.fill"
+              tintColor="#000"
+              size={24}
+              style={styles.compactUploadIcon}
+            />
             <View style={styles.compactUploadText}>
               <Text style={styles.compactUploadTitle}>Upload Maintenance Manual</Text>
               <Text style={styles.compactUploadSubtitle}>Tap to select PDF</Text>
@@ -57,7 +59,7 @@ const DocumentPickerComponent = () => {
 
           <View style={styles.fileInfo}>
             <View style={styles.fileIconContainer}>
-              <FontAwesome6 name="file-pdf" size={24} color="black" />
+              <SymbolView name="doc.fill" tintColor="#000" size={24} />
             </View>
             <View style={styles.fileDetails}>
               <Text style={styles.fileName} numberOfLines={1}>
@@ -100,7 +102,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   compactUploadIcon: {
-    fontSize: 20,
     marginRight: 12,
   },
   compactUploadText: {

@@ -1,5 +1,5 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { SymbolView } from "expo-symbols";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function AddToolButton() {
@@ -8,10 +8,10 @@ export default function AddToolButton() {
       <Link href="/(tabs)/tools/modal" style={styles.addToolItem} asChild>
         <View style={styles.addToolItem}>
           <View style={styles.addToolContent}>
-            <Ionicons
-              name="add-circle-outline"
+            <SymbolView
+              name="plus.circle"
+              tintColor="#d6b588"
               size={24}
-              color="#d6b588"
               style={{ marginRight: 8 }}
             />
             <Text style={styles.addToolText}>Add Tool</Text>

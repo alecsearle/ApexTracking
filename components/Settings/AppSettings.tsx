@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
@@ -20,7 +20,7 @@ const AppSettings = () => {
       <View style={styles.card}>
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="notifications-outline" size={20} color="#666" />
+            <SymbolView name="bell" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Notifications</Text>
           </View>
           <Switch
@@ -33,7 +33,7 @@ const AppSettings = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="sync-outline" size={20} color="#666" />
+            <SymbolView name="arrow.triangle.2.circlepath" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Auto Sync</Text>
           </View>
           <Switch
@@ -46,7 +46,7 @@ const AppSettings = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="moon-outline" size={20} color="#666" />
+            <SymbolView name="moon" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Dark Mode</Text>
           </View>
           <Switch

@@ -1,5 +1,5 @@
 import { useUser } from "@/contexts/UserContext";
-import { Ionicons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
@@ -28,7 +28,7 @@ const UserPermissions = () => {
       <View style={styles.card}>
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="add-circle-outline" size={20} color="#666" />
+            <SymbolView name="plus.circle" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Add Tools</Text>
           </View>
           <Switch
@@ -41,7 +41,7 @@ const UserPermissions = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="create-outline" size={20} color="#666" />
+            <SymbolView name="pencil" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Edit Tools</Text>
           </View>
           <Switch
@@ -54,7 +54,7 @@ const UserPermissions = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="trash-outline" size={20} color="#666" />
+            <SymbolView name="trash" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Delete Tools</Text>
           </View>
           <Switch
@@ -67,7 +67,7 @@ const UserPermissions = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="bar-chart-outline" size={20} color="#666" />
+            <SymbolView name="chart.bar" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>View Reports</Text>
           </View>
           <Switch
@@ -80,7 +80,7 @@ const UserPermissions = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="people-outline" size={20} color="#666" />
+            <SymbolView name="person.2" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Manage Users</Text>
           </View>
           <Switch
@@ -94,7 +94,7 @@ const UserPermissions = () => {
 
         <View style={styles.permissionItem}>
           <View style={styles.permissionInfo}>
-            <Ionicons name="download-outline" size={20} color="#666" />
+            <SymbolView name="arrow.down.circle" tintColor="#666" size={20} />
             <Text style={styles.permissionText}>Export Data</Text>
           </View>
           <Switch
