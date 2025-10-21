@@ -1,3 +1,4 @@
+import { useUser } from "@/contexts/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
@@ -12,8 +13,8 @@ import {
 } from "react-native";
 
 export default function SettingsScreen() {
-  // User role state
-  const [userRole, setUserRole] = useState<"admin" | "employee">("admin");
+  // Use global user context
+  const { userRole, setUserRole, isAdmin } = useUser();
 
   // Permission states
   const [permissions, setPermissions] = useState({

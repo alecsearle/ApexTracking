@@ -1,16 +1,19 @@
+import showNfcAlert from "@/components/NfcUtil/AlertNfcUse";
+import { useUser } from "@/contexts/UserContext";
 import { Stack } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { Pressable } from "react-native";
 
 export default function ToolsLayout() {
   const brandColor = "#d6b588";
+  const { userRole } = useUser();
 
   return (
     <Stack
       screenOptions={{
-        headerTintColor: brandColor, // <-- makes back arrow + text tan
+        headerTintColor: brandColor,
         headerTitleStyle: {
-          color: "#000", // keep title readable in black
+          color: "#000",
           fontWeight: "600",
         },
       }}
@@ -39,14 +42,16 @@ export default function ToolsLayout() {
           headerBackTitle: "Tools",
           headerRight: () => (
             <Pressable
-              onPress={() => console.log("Radio wave icon pressed")}
+              onPress={() => {
+                showNfcAlert(userRole);
+              }}
               style={{ marginRight: 15 }}
             >
               <SymbolView
                 name="iphone.radiowaves.left.and.right"
                 tintColor={brandColor}
                 type="hierarchical"
-                size={20}
+                size={24}
               />
             </Pressable>
           ),
