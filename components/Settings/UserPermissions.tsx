@@ -1,7 +1,10 @@
 import { useUser } from "@/contexts/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SymbolView } from "expo-symbols";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
+
+const PERMISSIONS_STORAGE_KEY = "@apex_tracking_permissions";
 
 const UserPermissions = () => {
   const { userRole, setUserRole, isAdmin } = useUser();
@@ -16,8 +19,30 @@ const UserPermissions = () => {
     canExportData: false,
   });
 
-  const togglePermission = (key: keyof typeof permissions) => {
-    setPermissions((prev) => ({ ...prev, [key]: !prev[key] }));
+  // Load permissions from AsyncStorage on mount
+  useEffect(() => {
+    loadPermissions();
+  }, []);
+
+  const loadPermissions = async () => {
+    try {
+      const storedPermissions = await AsyncStorage.getItem(PERMISSIONS_STORAGE_KEY);
+      if (storedPermissions) {
+        setPermissions(JSON.parse(storedPermissions));
+      }
+    } catch (error) {
+      console.error("Error loading permissions:", error);
+    }
+  };
+
+  const togglePermission = async (key: keyof typeof permissions) => {
+    const updatedPermissions = { ...permissions, [key]: !permissions[key] };
+    setPermissions(updatedPermissions);
+    try {
+      await AsyncStorage.setItem(PERMISSIONS_STORAGE_KEY, JSON.stringify(updatedPermissions));
+    } catch (error) {
+      console.error("Error saving permissions:", error);
+    }
   };
 
   return (

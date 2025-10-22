@@ -1,6 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SymbolView } from "expo-symbols";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
+
+const APP_SETTINGS_STORAGE_KEY = "@apex_tracking_app_settings";
 
 const AppSettings = () => {
   // App settings
@@ -10,8 +13,30 @@ const AppSettings = () => {
     darkMode: false,
   });
 
-  const toggleAppSetting = (key: keyof typeof appSettings) => {
-    setAppSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+  // Load settings from AsyncStorage on mount
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const storedSettings = await AsyncStorage.getItem(APP_SETTINGS_STORAGE_KEY);
+      if (storedSettings) {
+        setAppSettings(JSON.parse(storedSettings));
+      }
+    } catch (error) {
+      console.error("Error loading app settings:", error);
+    }
+  };
+
+  const toggleAppSetting = async (key: keyof typeof appSettings) => {
+    const updatedSettings = { ...appSettings, [key]: !appSettings[key] };
+    setAppSettings(updatedSettings);
+    try {
+      await AsyncStorage.setItem(APP_SETTINGS_STORAGE_KEY, JSON.stringify(updatedSettings));
+    } catch (error) {
+      console.error("Error saving app settings:", error);
+    }
   };
 
   return (

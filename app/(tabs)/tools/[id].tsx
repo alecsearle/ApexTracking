@@ -1,11 +1,16 @@
 import EditToolForm from "@/components/EditToolForm";
+import { useUser } from "@/contexts/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+
+const TOOLS_STORAGE_KEY = "@apex_tracking_tools";
 
 export default function ToolDetailScreen() {
   const params = useLocalSearchParams();
   const router = useRouter();
+  const { isAdmin } = useUser();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [toolData, setToolData] = useState({
@@ -21,10 +26,53 @@ export default function ToolDetailScreen() {
   // Parse the tool data from params
   const tool = toolData;
 
-  const handleSave = (updatedTool: any) => {
+  const handleSave = async (updatedTool: any) => {
     setToolData(updatedTool);
     setModalVisible(false);
-    // Here you would typically also update your backend/storage
+
+    // Update tool in AsyncStorage
+    try {
+      const storedTools = await AsyncStorage.getItem(TOOLS_STORAGE_KEY);
+      if (storedTools) {
+        const tools = JSON.parse(storedTools);
+        const updatedTools = tools.map((t: any) => (t.id === updatedTool.id ? updatedTool : t));
+        await AsyncStorage.setItem(TOOLS_STORAGE_KEY, JSON.stringify(updatedTools));
+      }
+    } catch (error) {
+      console.error("Error updating tool:", error);
+    }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete Tool",
+      `Are you sure you want to delete "${tool.name}"? This action cannot be undone.`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              const storedTools = await AsyncStorage.getItem(TOOLS_STORAGE_KEY);
+              if (storedTools) {
+                const tools = JSON.parse(storedTools);
+                const updatedTools = tools.filter((t: any) => t.id !== tool.id);
+                await AsyncStorage.setItem(TOOLS_STORAGE_KEY, JSON.stringify(updatedTools));
+                Alert.alert("Success", "Tool deleted successfully.");
+                router.back();
+              }
+            } catch (error) {
+              console.error("Error deleting tool:", error);
+              Alert.alert("Error", "Failed to delete tool.");
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -70,6 +118,12 @@ export default function ToolDetailScreen() {
         <Pressable style={styles.editButton} onPress={() => setModalVisible(true)}>
           <Text style={styles.editButtonText}>Edit Tool</Text>
         </Pressable>
+
+        {isAdmin() && (
+          <Pressable style={styles.deleteButton} onPress={handleDelete}>
+            <Text style={styles.deleteButtonText}>Delete Tool</Text>
+          </Pressable>
+        )}
       </View>
 
       <Modal
@@ -173,6 +227,23 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   editButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  deleteButton: {
+    backgroundColor: "#ff3b30",
+    padding: 18,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  deleteButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",

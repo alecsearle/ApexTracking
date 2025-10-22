@@ -14,6 +14,7 @@ At the the completion of Project 2, the user will be able to add new tools to th
 - Native icons
 - Dark mode / light mode
 - Navigation (https://developer.apple.com/design/human-interface-guidelines/tab-bars)
+- Icons (https://developer.apple.com/design/human-interface-guidelines/icons)
 
 # How to Run
 

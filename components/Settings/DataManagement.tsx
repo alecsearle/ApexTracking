@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SymbolView } from "expo-symbols";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -14,9 +15,14 @@ const DataManagement = () => {
         {
           text: "Clear Data",
           style: "destructive",
-          onPress: () => {
-            // Handle data clearing logic here
-            Alert.alert("Success", "All data has been cleared.");
+          onPress: async () => {
+            try {
+              await AsyncStorage.clear();
+              Alert.alert("Success", "All data has been cleared.");
+            } catch (error) {
+              console.error("Error clearing data:", error);
+              Alert.alert("Error", "Failed to clear data.");
+            }
           },
         },
       ]

@@ -1,6 +1,9 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+
+const TOOLS_STORAGE_KEY = "@apex_tracking_tools";
 
 function AllToolsList() {
   // Get URL params and router
@@ -16,7 +19,7 @@ function AllToolsList() {
     status: string;
   };
 
-  const [tools, setTools] = useState<Tool[]>([
+  const DEFAULT_TOOLS: Tool[] = [
     {
       id: "1",
       name: "Tool 1",
@@ -53,7 +56,46 @@ function AllToolsList() {
       purchaseDate: "2022-04-01",
       status: "Active",
     },
-  ]);
+  ];
+
+  const [tools, setTools] = useState<Tool[]>([]);
+
+  // Load tools from AsyncStorage on mount
+  useEffect(() => {
+    loadTools();
+  }, []);
+
+  // Reload tools when screen comes into focus (e.g., after deleting a tool)
+  useFocusEffect(
+    useCallback(() => {
+      loadTools();
+    }, [])
+  );
+
+  const loadTools = async () => {
+    try {
+      const storedTools = await AsyncStorage.getItem(TOOLS_STORAGE_KEY);
+      if (storedTools) {
+        setTools(JSON.parse(storedTools));
+      } else {
+        // Initialize with default tools if none exist
+        setTools(DEFAULT_TOOLS);
+        await AsyncStorage.setItem(TOOLS_STORAGE_KEY, JSON.stringify(DEFAULT_TOOLS));
+      }
+    } catch (error) {
+      console.error("Error loading tools:", error);
+      setTools(DEFAULT_TOOLS);
+    }
+  };
+
+  const saveTools = async (updatedTools: Tool[]) => {
+    try {
+      await AsyncStorage.setItem(TOOLS_STORAGE_KEY, JSON.stringify(updatedTools));
+      setTools(updatedTools);
+    } catch (error) {
+      console.error("Error saving tools:", error);
+    }
+  };
 
   // Handle new tool data when params exist
   useEffect(() => {
@@ -68,7 +110,8 @@ function AllToolsList() {
         status: "Active", // Default status for new tools
       };
 
-      setTools((prevTools) => [...prevTools, newTool]);
+      const updatedTools = [...tools, newTool];
+      saveTools(updatedTools);
 
       // Clear the params by replacing the URL without params
       router.setParams({ isNew: "false" });
